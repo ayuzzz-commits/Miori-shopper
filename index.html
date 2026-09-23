@@ -90,6 +90,15 @@
         .instagram-link-btn {
             display: none !important;
         }
+        /* ซ่อนปุ่มเปิดเพลงตามคำสั่ง */
+        #music-toggle-btn {
+            display: none !important;
+        }
+        /* เอาเส้นขอบสีดำของปุ่มเลือกไฟล์ออกทั้งหมด */
+        input[type="file"]::file-selector-button {
+            border: none !important;
+            outline: none !important;
+        }
         /* แท็บสลับหน้าในระบบหลังบ้าน */
         .admin-tab-btn {
             background: transparent;
@@ -116,17 +125,19 @@
     </style>
 </head>
 <body class="antialiased relative selection:bg-pj-yellow-main selection:text-pj-blue-dark">
+    <!-- ข้อมูลรูปภาพร้านค้าที่ฝังไว้ในหน้าเว็บ (ใช้ซิงก์รูประหว่างอุปกรณ์ทุกเครื่องเมื่อเผยแพร่หน้านี้เป็น Artifact) -->
+    <script id="site-images-data" type="application/json">{"logoUrl":"https://placehold.co/150x150/ffb3c6/ffffff?text=Miori","bannerUrl":"https://placehold.co/2400x800/ffccd5/705446?text=Miori+Shop+Banner","products":["https://placehold.co/1280x1280/ffb3c6/ffffff?text=Block","https://placehold.co/1280x1280/ffe066/705446?text=Toon","https://placehold.co/1280x1280/ffccd5/705446?text=Descor"]}</script>
     <!-- Audio Player Hidden Element (YouTube Iframe with Loop API) -->
     <iframe id="bg-music-iframe" style="display:none;" width="560" height="315" src="https://www.youtube.com/embed/BX7z7AvTCNw?enablejsapi=1&loop=1&playlist=BX7z7AvTCNw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-    <!-- Floating Music Toggle Button (ฝั่งซ้าย ขนาดเล็กลง) -->
+    <!-- Floating Music Toggle Button (ฝั่งซ้าย ขนาดเล็กลง - ซ่อนด้วย CSS) -->
     <button id="music-toggle-btn" onclick="toggleMusic()" class="fixed top-4 left-4 z-50 bg-pj-white border-2 border-pj-pink p-1.5 rounded-full shadow-lg hover:scale-110 transition-transform duration-300 flex items-center justify-center text-pj-pink group" title="เปิด/ปิดเพลง">
         <svg id="music-icon" class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor">
             <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z"/>
         </svg>
         <span id="music-status-dot" class="absolute top-0.5 right-0.5 w-2 h-2 bg-gray-400 rounded-full border border-white"></span>
     </button>
-    <!-- Admin Panel Floating Button Bottom-Left -->
-    <button onclick="openAdminAuthModal()" class="fixed bottom-4 left-4 z-50 bg-pj-pink text-pj-white p-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 flex items-center gap-1.5 text-xs font-bold border-2 border-pj-white">
+    <!-- Admin Panel Floating Button (ย้ายมาอยู่มุมบนซ้ายมือตามคำสั่ง) -->
+    <button onclick="openAdminAuthModal()" class="fixed top-4 left-4 z-50 bg-pj-pink text-pj-white p-2.5 sm:p-3 rounded-full shadow-lg hover:scale-105 transition-transform duration-300 flex items-center gap-1.5 text-xs font-bold border-2 border-pj-white">
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         <span>หลังบ้าน</span>
     </button>
@@ -415,7 +426,7 @@
             <p class="text-xs font-semibold text-pj-blue-dark/60 mt-6">ขอบคุณที่ไว้วางใจ Miori Shop</p>
         </section>
     </main>
-    <!-- Modal: ป๊อบอัพระบบเช็คคิวงานลูกค้า -->
+<!-- Modal: ป๊อบอัพระบบเช็คคิวงานลูกค้า -->
     <div id="modal-queue-view" class="modal inactive fixed inset-0 z-50 flex items-center justify-center p-4">
         <div class="absolute inset-0 bg-pj-blue-dark/40 backdrop-blur-sm" onclick="closeModal('modal-queue-view')"></div>
         <div class="modal-content relative bg-pj-white w-full max-w-sm rounded-[30px] p-6 shadow-xl border-4 border-pj-pink">
@@ -488,7 +499,7 @@
             <div class="space-y-2 mb-3 text-left">
                 <div>
                     <label class="block text-[10px] font-bold text-pj-blue-dark mb-0.5">กรอกอีเมล</label>
-                    <input type="password" id="admin-email-input" value="mean13ayu@gmail.com" readonly placeholder="กรอกอีเมล" class="w-full border-2 border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-pj-pink bg-pj-bg/60 tracking-widest">
+                    <input type="email" id="admin-email-input" value="" placeholder="กรอกอีเมล" class="w-full border-2 border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-pj-pink bg-pj-bg/60">
                 </div>
                 <div>
                     <label class="block text-[10px] font-bold text-pj-blue-dark mb-0.5">รหัสผ่าน</label>
@@ -524,8 +535,9 @@
                 <button id="admin-tab-btn-2" onclick="switchAdminTab('admin-tab-2')" class="admin-tab-btn font-eng text-[11px] font-bold py-2 rounded-xl transition-all">แก้ไขข้อมูลร้าน</button>
                 <button id="admin-tab-btn-3" onclick="switchAdminTab('admin-tab-3')" class="admin-tab-btn font-eng text-[11px] font-bold py-2 rounded-xl transition-all">เช็คคิว</button>
             </div>
-            <!-- หน้าที่ 1: ระบบหลังบ้าน -->
+            <!-- หน้าที่ 1: ระบบหลังบ้าน (รูปภาพ / อนุมัติรีวิว / เปลี่ยนรหัสผ่าน) -->
             <div id="admin-tab-1" class="admin-tab-page space-y-5 mt-4">
+                <!-- 1. ส่วนอัปโหลดรูปภาพทั้งหมด -->
                 <div class="bg-pj-white p-4 rounded-2xl border-2 border-pj-pink/40 shadow-sm">
                     <h3 class="font-bold text-sm text-pj-blue-dark mb-3 flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-pj-pink inline-block"></span>
@@ -545,17 +557,17 @@
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-2">
                             <div class="bg-pj-bg p-2.5 rounded-xl border border-pj-pink/30 space-y-1">
                                 <label class="block font-bold text-pj-blue-dark text-[11px]">3. รูป Block:</label>
-                                <input type="file" id="file-input-prod1" accept="image/*" onchange="previewImage(event, 'preview-prod1')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:border-0 file:bg-pj-pink/20">
+                                <input type="file" id="file-input-prod1" accept="image/*" onchange="previewImage(event, 'preview-prod1')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:border-0 file:bg-pj-pink/20 file:text-pj-blue-dark hover:file:bg-pj-pink">
                                 <img id="preview-prod1" class="w-12 h-12 object-cover rounded-lg border hidden mt-1">
                             </div>
                             <div class="bg-pj-bg p-2.5 rounded-xl border border-pj-pink/30 space-y-1">
                                 <label class="block font-bold text-pj-blue-dark text-[11px]">4. รูป Toon:</label>
-                                <input type="file" id="file-input-prod2" accept="image/*" onchange="previewImage(event, 'preview-prod2')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:bg-pj-pink/20">
+                                <input type="file" id="file-input-prod2" accept="image/*" onchange="previewImage(event, 'preview-prod2')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:border-0 file:bg-pj-pink/20 file:text-pj-blue-dark hover:file:bg-pj-pink">
                                 <img id="preview-prod2" class="w-12 h-12 object-cover rounded-lg border hidden mt-1">
                             </div>
                             <div class="bg-pj-bg p-2.5 rounded-xl border border-pj-pink/30 space-y-1">
                                 <label class="block font-bold text-pj-blue-dark text-[11px]">5. รูป Descor:</label>
-                                <input type="file" id="file-input-prod3" accept="image/*" onchange="previewImage(event, 'preview-prod3')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:bg-pj-pink/20">
+                                <input type="file" id="file-input-prod3" accept="image/*" onchange="previewImage(event, 'preview-prod3')" class="w-full text-[10px] text-gray-500 file:mr-1 file:py-0.5 file:px-2 file:rounded-full file:border-0 file:bg-pj-pink/20 file:text-pj-blue-dark hover:file:bg-pj-pink">
                                 <img id="preview-prod3" class="w-12 h-12 object-cover rounded-lg border hidden mt-1">
                             </div>
                         </div>
@@ -565,6 +577,7 @@
                         </button>
                     </div>
                 </div>
+                <!-- 3. อนุมัติรีวิวลูกค้า -->
                 <div class="bg-pj-white p-4 rounded-2xl border-2 border-pj-pink/40 shadow-sm">
                     <h3 class="font-bold text-sm text-pj-pink mb-3 flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-pj-pink inline-block"></span>
@@ -575,6 +588,7 @@
                         <!-- Loaded dynamically -->
                     </div>
                 </div>
+                <!-- 4. ตั้งค่าเปลี่ยนรหัสผ่านแอดมิน -->
                 <div class="bg-pj-yellow-light/60 p-4 rounded-2xl border-2 border-pj-yellow-main shadow-sm">
                     <h3 class="font-bold text-sm text-pj-blue-dark mb-2 flex items-center gap-1.5">
                         <svg class="w-4 h-4 text-pj-blue-dark" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2"><path d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"/></svg>
@@ -589,7 +603,7 @@
                     </button>
                 </div>
             </div>
-            <!-- หน้าที่ 2: แก้ไขข้อมูลร้าน -->
+            <!-- หน้าที่ 2: แก้ไขข้อมูลร้าน (ลิงก์ช่องทางติดต่อ & Google Drive) -->
             <div id="admin-tab-2" class="admin-tab-page space-y-5 mt-4 hidden">
                 <div class="bg-pj-white p-4 rounded-2xl border-2 border-pj-pink/40 shadow-sm">
                     <h3 class="font-bold text-sm text-pj-blue-dark mb-3 flex items-center gap-2">
@@ -627,27 +641,27 @@
                     </div>
                 </div>
             </div>
-            <!-- หน้าที่ 3: เช็คคิว -->
+            <!-- หน้าที่ 3: เช็คคิว (จัดการคิวงานลูกค้า) -->
             <div id="admin-tab-3" class="admin-tab-page space-y-5 mt-4 hidden">
-                <div class="bg-pj-white p-4 rounded-2xl border-2 border-pj-pink/40 shadow-sm">
+                <div class="bg-pj-white p-3.5 sm:p-4 rounded-2xl border-2 border-pj-pink/40 shadow-sm overflow-hidden">
                     <h3 class="font-bold text-sm text-pj-blue-dark mb-3 flex items-center gap-2">
                         <span class="w-3 h-3 rounded-full bg-green-400 inline-block"></span>
                         เพิ่ม / แก้ไข / ลด คิวของลูกค้า
                     </h3>
                     
-                    <div class="flex flex-col gap-2 mb-3">
-                        <div class="flex gap-2">
-                            <input type="text" id="new-client-name" placeholder="ชื่อลูกค้า/ชื่อร้าน..." class="flex-1 bg-pj-bg border border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs">
-                            <select id="new-client-status" class="bg-pj-bg border border-pj-pink/40 rounded-xl px-2 py-1.5 text-xs font-bold text-pj-blue-dark">
-                                <option value="0">0% (รอบรีพงาน)</option>
-                                <option value="25">25% (บรีพงานแล้ว)</option>
-                                <option value="50">50% (กำลังทำงาน)</option>
-                                <option value="75">75% (รอเช็คงาน)</option>
-                                <option value="100">100% (ส่งงานแล้ว)</option>
+                    <div class="flex flex-col gap-2 mb-3 w-full">
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2 w-full">
+                            <input type="text" id="new-client-name" placeholder="ชื่อลูกค้า/ชื่อร้าน..." class="sm:col-span-7 w-full min-w-0 bg-pj-bg border border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-pj-pink">
+                            <select id="new-client-status" class="sm:col-span-5 w-full min-w-0 bg-pj-bg border border-pj-pink/40 rounded-xl px-2 py-1.5 text-xs font-bold text-pj-blue-dark focus:outline-none truncate">
+                                <option value="0">0% (รอบรีพ)</option>
+                                <option value="25">25% (บรีพแล้ว)</option>
+                                <option value="50">50% (กำลังทำ)</option>
+                                <option value="75">75% (รอเช็ค)</option>
+                                <option value="100">100% (ส่งแล้ว)</option>
                             </select>
                         </div>
-                        <div class="flex gap-2">
-                            <input type="text" id="new-client-note" placeholder="สั่งงานอะไร เช่น ป้ายบัญชี, ริชเมนู..." class="flex-1 bg-pj-bg border border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs">
+                        <div class="flex gap-2 w-full">
+                            <input type="text" id="new-client-note" placeholder="สั่งงานอะไร เช่น ป้ายบัญชี, ริชเมนู..." class="flex-1 min-w-0 bg-pj-bg border border-pj-pink/40 rounded-xl px-3 py-1.5 text-xs focus:outline-none focus:border-pj-pink">
                             <button onclick="addNewQueueItem()" class="bg-green-500 text-white font-bold px-3 py-1.5 rounded-xl text-xs hover:bg-green-600 transition shrink-0 shadow-sm">
                                 + เพิ่มคิว
                             </button>
@@ -660,8 +674,11 @@
             </div>
         </div>
     </div>
-    <!-- JavaScript Logic (ส่วนแก้ปัญหาการอัปโหลดรูปภาพและการเชื่อมโยงข้อมูล) -->
+    <!-- JavaScript Logic -->
     <script>
+        /* เก็บ HTML ต้นฉบับของหน้านี้ไว้ตั้งแต่ก่อนมีการแก้ไขใดๆ ด้วย JS
+           เพื่อใช้เป็นแม่แบบตอนเผยแพร่ (publish) รูปภาพใหม่ให้ทุกอุปกรณ์เห็นตรงกัน */
+        const PRISTINE_HTML = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
         const ADMIN_EMAIL = 'mean13ayu@gmail.com';
         let currentAdminPass = '1234';
         if (localStorage.getItem('pj_admin_pass')) {
@@ -692,7 +709,6 @@
             { id: 5, name: "คุณจอย ป้ายบัญชี", status: 0, note: "ป้ายบัญชี" }
         ];
         let reviews = [];
-
         /* Audio Music Toggle logic with loop support */
         let isPlayingMusic = false;
         function toggleMusic() {
@@ -715,7 +731,6 @@
                 }
             }
         }
-
         /* Broadcast Channel & Storage Sync */
         let broadcastChan = null;
         function initSharedDb() {
@@ -752,7 +767,6 @@
                 }
             });
         }
-
         function pushSharedState() {
             if (broadcastChan) {
                 try {
@@ -760,7 +774,6 @@
                 } catch (e) {}
             }
         }
-
         window.addEventListener('DOMContentLoaded', () => {
             try {
                 const savedSiteData = localStorage.getItem('pj_site_data');
@@ -785,12 +798,31 @@
             } catch(e) {
                 console.error('LocalStorage load error', e);
             }
+            /* โหลดรูปภาพจากข้อมูลที่ฝังไว้ในหน้าเว็บ (ค่าล่าสุดที่แอดมินเคยกดบันทึก/เผยแพร่)
+               ให้เป็นค่าหลักของรูปภาพ เพื่อให้ทุกอุปกรณ์ที่เข้าเว็บเห็นรูปตรงกัน
+               โดยไม่ลบของเดิม เป็นแค่ค่าที่ overlay ทับหลัง localStorage อีกที */
+            try {
+                const imagesDataEl = document.getElementById('site-images-data');
+                if (imagesDataEl && imagesDataEl.textContent) {
+                    const publishedImages = JSON.parse(imagesDataEl.textContent);
+                    if (publishedImages) {
+                        if (publishedImages.logoUrl) siteData.logoUrl = publishedImages.logoUrl;
+                        if (publishedImages.bannerUrl) siteData.bannerUrl = publishedImages.bannerUrl;
+                        if (Array.isArray(publishedImages.products) && siteData.products) {
+                            publishedImages.products.forEach((imgUrl, idx) => {
+                                if (imgUrl && siteData.products[idx]) siteData.products[idx].img = imgUrl;
+                            });
+                        }
+                    }
+                }
+            } catch(e) {
+                console.error('Published images data load error', e);
+            }
             renderSiteElements();
             renderQueues();
             renderReviews();
             initSharedDb();
         });
-
         function renderSiteElements() {
             if(siteData.logoUrl) document.getElementById('site-logo-img').src = siteData.logoUrl;
             if(siteData.bannerUrl) document.getElementById('site-banner-img').src = siteData.bannerUrl;
@@ -799,7 +831,6 @@
             if(siteData.products && siteData.products[2] && siteData.products[2].img) document.getElementById('prod-img-3').src = siteData.products[2].img;
             renderChannelLinks();
         }
-
         function renderChannelLinks() {
             if (!siteData.links) return;
             const fb = document.getElementById('contact-facebook-link');
@@ -808,7 +839,6 @@
             if (fb && siteData.links.facebook) fb.href = siteData.links.facebook;
             if (line && siteData.links.line) line.href = siteData.links.line;
             if (ig && siteData.links.instagram) ig.href = siteData.links.instagram;
-
             const prodBlock = document.getElementById('prod-link-1');
             const prodToon = document.getElementById('prod-link-2');
             const prodDescor = document.getElementById('prod-link-3');
@@ -816,328 +846,452 @@
             if (prodToon && siteData.links.driveToon) prodToon.href = siteData.links.driveToon;
             if (prodDescor && siteData.links.driveDescor) prodDescor.href = siteData.links.driveDescor;
         }
-
-        /* Modal Helper */
+        function populateChannelLinksInputs() {
+            if (!siteData.links) return;
+            const fbInput = document.getElementById('link-facebook-input');
+            const lineInput = document.getElementById('link-line-input');
+            const blockInput = document.getElementById('link-drive-block-input');
+            const toonInput = document.getElementById('link-drive-toon-input');
+            const descorInput = document.getElementById('link-drive-descor-input');
+            if (fbInput) fbInput.value = siteData.links.facebook || '';
+            if (lineInput) lineInput.value = siteData.links.line || '';
+            if (blockInput) blockInput.value = siteData.links.driveBlock || '';
+            if (toonInput) toonInput.value = siteData.links.driveToon || '';
+            if (descorInput) descorInput.value = siteData.links.driveDescor || '';
+        }
+        function saveChannelLinks() {
+            const fb = document.getElementById('link-facebook-input').value.trim();
+            const line = document.getElementById('link-line-input').value.trim();
+            const block = document.getElementById('link-drive-block-input').value.trim();
+            const toon = document.getElementById('link-drive-toon-input').value.trim();
+            const descor = document.getElementById('link-drive-descor-input').value.trim();
+            if (!siteData.links) siteData.links = {};
+            if (fb) siteData.links.facebook = fb;
+            if (line) siteData.links.line = line;
+            if (block) siteData.links.driveBlock = block;
+            if (toon) siteData.links.driveToon = toon;
+            if (descor) siteData.links.driveDescor = descor;
+            try {
+                localStorage.setItem('pj_site_data', JSON.stringify(siteData));
+            } catch(e) {}
+            renderChannelLinks();
+            pushSharedState();
+            alert('บันทึกลิงก์เรียบร้อยแล้วค่ะ');
+        }
         function openModal(id) {
             const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.remove('inactive');
-            modal.classList.add('active');
+            if(modal) {
+                modal.classList.remove('inactive');
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
         }
         function closeModal(id) {
             const modal = document.getElementById(id);
-            if (!modal) return;
-            modal.classList.remove('active');
-            modal.classList.add('inactive');
-        }
-
-        /* Image Helper: Convert to Base64 to show image across devices */
-        function previewImage(event, previewId) {
-            const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = document.getElementById(previewId);
-                    if (img) {
-                        img.src = e.target.result;
-                        img.classList.remove('hidden');
-                    }
-                }
-                reader.readAsDataURL(file);
+            if(modal) {
+                modal.classList.remove('active');
+                modal.classList.add('inactive');
+                document.body.style.overflow = '';
             }
         }
-
-        /* Admin Auth */
-        function openAdminAuthModal() {
-            openModal('modal-admin-auth');
-        }
+        function openReviewModal() { openModal('modal-review-form'); }
+        function openAdminAuthModal() { openModal('modal-admin-auth'); }
         function checkAdminLogin() {
-            const pass = document.getElementById('admin-pass-input').value;
-            if (pass === currentAdminPass) {
+            const emailInput = document.getElementById('admin-email-input');
+            const passInput = document.getElementById('admin-pass-input');
+            const email = emailInput ? emailInput.value.trim().toLowerCase() : '';
+            const pass = passInput ? passInput.value.trim() : '';
+            if (email === ADMIN_EMAIL.toLowerCase() && pass === currentAdminPass) {
                 closeModal('modal-admin-auth');
+                if(emailInput) emailInput.value = '';
+                if(passInput) passInput.value = '';
+                loadAdminData();
                 openModal('modal-admin-panel');
-                switchAdminTab('admin-tab-1');
-                fillAdminInputs();
-                renderAdminQueueManage();
-                renderAdminPendingReviews();
-                document.getElementById('admin-pass-input').value = '';
             } else {
-                alert('รหัสผ่านไม่ถูกต้อง');
+                alert('อีเมลหรือรหัสผ่านไม่ถูกต้องค่ะ');
             }
         }
-        function switchAdminTab(tabId) {
-            document.querySelectorAll('.admin-tab-page').forEach(page => page.classList.add('hidden'));
-            document.querySelectorAll('.admin-tab-btn').forEach(btn => btn.classList.remove('active'));
-            const targetPage = document.getElementById(tabId);
-            if (targetPage) targetPage.classList.remove('hidden');
-
-            if (tabId === 'admin-tab-1') document.getElementById('admin-tab-btn-1').classList.add('active');
-            if (tabId === 'admin-tab-2') document.getElementById('admin-tab-btn-2').classList.add('active');
-            if (tabId === 'admin-tab-3') document.getElementById('admin-tab-btn-3').classList.add('active');
-        }
-
-        function fillAdminInputs() {
-            if (siteData.links) {
-                document.getElementById('link-facebook-input').value = siteData.links.facebook || '';
-                document.getElementById('link-line-input').value = siteData.links.line || '';
-                document.getElementById('link-drive-block-input').value = siteData.links.driveBlock || '';
-                document.getElementById('link-drive-toon-input').value = siteData.links.driveToon || '';
-                document.getElementById('link-drive-descor-input').value = siteData.links.driveDescor || '';
-            }
-        }
-
-        function saveAllImageChanges() {
-            const readAndSave = (inputId, callback) => {
-                const file = document.getElementById(inputId).files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (e) => callback(e.target.result);
-                    reader.readAsDataURL(file);
-                } else {
-                    callback(null);
-                }
-            };
-
-            readAndSave('file-input-logo', (logoBase64) => {
-                if (logoBase64) siteData.logoUrl = logoBase64;
-                readAndSave('file-input-banner', (bannerBase64) => {
-                    if (bannerBase64) siteData.bannerUrl = bannerBase64;
-                    readAndSave('file-input-prod1', (p1) => {
-                        if (p1) siteData.products[0].img = p1;
-                        readAndSave('file-input-prod2', (p2) => {
-                            if (p2) siteData.products[1].img = p2;
-                            readAndSave('file-input-prod3', (p3) => {
-                                if (p3) siteData.products[2].img = p3;
-                                localStorage.setItem('pj_site_data', JSON.stringify(siteData));
-                                renderSiteElements();
-                                pushSharedState();
-                                alert('บันทึกรูปภาพเรียบร้อยแล้ว');
-                            });
-                        });
-                    });
-                });
-            });
-        }
-
-        function saveChannelLinks() {
-            siteData.links.facebook = document.getElementById('link-facebook-input').value;
-            siteData.links.line = document.getElementById('link-line-input').value;
-            siteData.links.driveBlock = document.getElementById('link-drive-block-input').value;
-            siteData.links.driveToon = document.getElementById('link-drive-toon-input').value;
-            siteData.links.driveDescor = document.getElementById('link-drive-descor-input').value;
-
-            localStorage.setItem('pj_site_data', JSON.stringify(siteData));
-            renderChannelLinks();
-            pushSharedState();
-            alert('บันทึกลิงก์สำเร็จ');
-        }
-
         function changeAdminPassword() {
-            const n = document.getElementById('change-pass-new').value;
-            const c = document.getElementById('change-pass-confirm').value;
-            if (!n || n !== c) {
-                alert('รหัสผ่านไม่ตรงกัน หรือยังไม่ได้ระบุ');
+            const newPass = document.getElementById('change-pass-new').value.trim();
+            const confirmPass = document.getElementById('change-pass-confirm').value.trim();
+            if (!newPass) {
+                alert('กรุณากรอกรหัสผ่านใหม่ด้วยนะคะ');
                 return;
             }
-            currentAdminPass = n;
-            localStorage.setItem('pj_admin_pass', n);
-            alert('เปลี่ยนรหัสผ่านสำเร็จ');
+            if (newPass !== confirmPass) {
+                alert('รหัสผ่านใหม่และรหัสผ่านยืนยันไม่ตรงกันค่ะ');
+                return;
+            }
+            currentAdminPass = newPass;
+            localStorage.setItem('pj_admin_pass', newPass);
             document.getElementById('change-pass-new').value = '';
             document.getElementById('change-pass-confirm').value = '';
+            alert('เปลี่ยนรหัสผ่านสำเร็จเรียบร้อยค่ะ!');
         }
-
-        /* Queue Management Logic */
-        function renderQueues(filter = '') {
-            const container = document.getElementById('queue-list-container');
-            if (!container) return;
-            container.innerHTML = '';
-            const list = queues.filter(q => q.name.toLowerCase().includes(filter.toLowerCase()));
-            if (list.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-gray-400 py-4">ไม่พบรายการคิวงาน</p>';
-                return;
-            }
-            list.forEach(q => {
-                const div = document.createElement('div');
-                div.className = 'bg-pj-bg p-3 rounded-2xl border border-pj-pink/30 shadow-sm';
-                let badgeClass = 'bg-gray-200 text-gray-600';
-                if(q.status == 25) badgeClass = 'bg-pink-100 text-pink-600';
-                if(q.status == 50) badgeClass = 'bg-yellow-100 text-yellow-700';
-                if(q.status == 75) badgeClass = 'bg-purple-100 text-purple-700';
-                if(q.status == 100) badgeClass = 'bg-green-100 text-green-700';
-
-                div.innerHTML = `
-                    <div class="flex justify-between items-center mb-1">
-                        <span class="font-bold text-xs text-pj-blue-dark">${q.name}</span>
-                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeClass}">${q.status}%</span>
-                    </div>
-                    ${q.note ? `<div class="mb-1.5"><span class="order-note-tag">📌 ${q.note}</span></div>` : ''}
-                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
-                        <div class="bg-pj-pink h-2 rounded-full transition-all duration-500" style="width: ${q.status}%"></div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function searchQueue() {
-            const val = document.getElementById('queue-search-input').value;
-            renderQueues(val);
-        }
-
-        function renderAdminQueueManage() {
-            const container = document.getElementById('admin-queue-manage-list');
-            if (!container) return;
-            container.innerHTML = '';
-            queues.forEach(q => {
-                const div = document.createElement('div');
-                div.className = 'flex items-center gap-1.5 bg-pj-bg p-2 rounded-xl border border-pj-pink/30 text-xs';
-                div.innerHTML = `
-                    <input type="text" value="${q.name}" onchange="updateQueueName(${q.id}, this.value)" class="flex-1 bg-white border border-pj-pink/30 rounded-lg px-2 py-1 font-bold">
-                    <input type="text" value="${q.note || ''}" placeholder="โน้ตงาน..." onchange="updateQueueNote(${q.id}, this.value)" class="w-24 bg-white border border-pj-pink/30 rounded-lg px-2 py-1">
-                    <select onchange="updateQueueStatus(${q.id}, this.value)" class="bg-white border border-pj-pink/30 rounded-lg px-1 py-1 font-bold">
-                        <option value="0" ${q.status == 0 ? 'selected':''}>0%</option>
-                        <option value="25" ${q.status == 25 ? 'selected':''}>25%</option>
-                        <option value="50" ${q.status == 50 ? 'selected':''}>50%</option>
-                        <option value="75" ${q.status == 75 ? 'selected':''}>75%</option>
-                        <option value="100" ${q.status == 100 ? 'selected':''}>100%</option>
-                    </select>
-                    <button onclick="deleteQueue(${q.id})" class="bg-red-400 text-white p-1 rounded-lg hover:bg-red-500">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M6 18L18 6M6 6l12 12"/></svg>
-                    </button>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function addNewQueueItem() {
-            const name = document.getElementById('new-client-name').value.trim();
-            const status = parseInt(document.getElementById('new-client-status').value);
-            const note = document.getElementById('new-client-note').value.trim();
-            if (!name) { alert('กรุณากรอกชื่อลูกค้า'); return; }
-
-            queues.push({ id: Date.now(), name, status, note });
-            saveQueues();
-            document.getElementById('new-client-name').value = '';
-            document.getElementById('new-client-note').value = '';
-        }
-
-        function updateQueueName(id, val) {
-            const q = queues.find(item => item.id === id);
-            if (q) { q.name = val; saveQueues(); }
-        }
-        function updateQueueNote(id, val) {
-            const q = queues.find(item => item.id === id);
-            if (q) { q.note = val; saveQueues(); }
-        }
-        function updateQueueStatus(id, val) {
-            const q = queues.find(item => item.id === id);
-            if (q) { q.status = parseInt(val); saveQueues(); }
-        }
-        function deleteQueue(id) {
-            queues = queues.filter(item => item.id !== id);
-            saveQueues();
-        }
-        function saveQueues() {
-            localStorage.setItem('pj_queues', JSON.stringify(queues));
-            renderQueues();
-            renderAdminQueueManage();
-            pushSharedState();
-        }
-
-        /* Review System Logic */
-        function openReviewModal() {
-            openModal('modal-review-form');
-        }
-        function handleReviewSubmit(e) {
-            e.preventDefault();
-            const name = document.getElementById('review-name').value;
-            const text = document.getElementById('review-text').value;
-            const file = document.getElementById('review-proof-file').files[0];
-
-            if (file) {
+        function previewImage(event, previewElemId) {
+            const file = event.target.files[0];
+            const imgElem = document.getElementById(previewElemId);
+            if (file && imgElem) {
                 const reader = new FileReader();
-                reader.onload = function(evt) {
-                    reviews.push({
-                        id: Date.now(),
-                        name: name,
-                        text: text,
-                        img: evt.target.result,
-                        status: 'pending'
-                    });
-                    localStorage.setItem('pj_reviews', JSON.stringify(reviews));
-                    pushSharedState();
-                    alert('ส่งรีวิวเรียบร้อยแล้ว รอแอดมินอนุมัตินะคะ');
-                    closeModal('modal-review-form');
-                    e.target.reset();
+                reader.onload = function(e) {
+                    imgElem.src = e.target.result;
+                    imgElem.classList.remove('hidden');
                 };
                 reader.readAsDataURL(file);
             }
         }
-
+        function compressAndProcessFile(file, maxWidth, maxHeight, callback) {
+            if (!file) {
+                callback(null);
+                return;
+            }
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+                    if (width > maxWidth) {
+                        height = Math.round((height * maxWidth) / width);
+                        width = maxWidth;
+                    }
+                    if (height > maxHeight) {
+                        width = Math.round((width * maxHeight) / height);
+                        height = maxHeight;
+                    }
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+                    const base64Res = canvas.toDataURL('image/jpeg', 0.72);
+                    callback(base64Res);
+                };
+                img.onerror = function() {
+                    callback(null);
+                };
+                img.src = e.target.result;
+            };
+            reader.onerror = function() {
+                callback(null);
+            };
+            reader.readAsDataURL(file);
+        }
+        function trySaveSiteData() {
+            try {
+                localStorage.setItem('pj_site_data', JSON.stringify(siteData));
+                return true;
+            } catch (e) {
+                console.error('Storage quota exceeded', e);
+                return false;
+            }
+        }
+        /* เผยแพร่รูปภาพล่าสุดไปยังหน้าเว็บจริง เพื่อให้ทุกอุปกรณ์/ทุกคนที่เปิดลิงก์เห็นรูปใหม่ตรงกัน
+           ทำงานเฉพาะตอนหน้านี้ถูกเผยแพร่เป็น Claude Artifact เท่านั้น (มี capability "artifact")
+           ถ้าไม่มี (เช่น เปิดไฟล์ html เฉย ๆ) จะข้ามไปเงียบๆ โดยไม่กระทบการทำงานเดิมที่ใช้ localStorage */
+        async function publishImagesToAllDevices() {
+            try {
+                if (!window.claude || typeof window.claude.use !== 'function') return false;
+                const artifactCap = await window.claude.use('artifact');
+                if (!artifactCap || typeof artifactCap.publish !== 'function') return false;
+                const publishedImages = {
+                    logoUrl: siteData.logoUrl,
+                    bannerUrl: siteData.bannerUrl,
+                    products: siteData.products.map(p => p.img)
+                };
+                const newDataScriptTag = '<script id="site-images-data" type="application/json">' + JSON.stringify(publishedImages) + '<' + '/script>';
+                const marker = /<script id="site-images-data" type="application\/json">[\s\S]*?<\/script>/;
+                if (!marker.test(PRISTINE_HTML)) return false;
+                const newHtml = PRISTINE_HTML.replace(marker, newDataScriptTag);
+                await artifactCap.publish(newHtml);
+                return true;
+            } catch (e) {
+                console.error('Publish images to artifact failed', e);
+                return false;
+            }
+        }
+        function saveAllImageChanges() {
+            const logoFile = document.getElementById('file-input-logo').files[0];
+            const bannerFile = document.getElementById('file-input-banner').files[0];
+            const prod1File = document.getElementById('file-input-prod1').files[0];
+            const prod2File = document.getElementById('file-input-prod2').files[0];
+            const prod3File = document.getElementById('file-input-prod3').files[0];
+            let tasks = [
+                { file: logoFile, w: 400, h: 400, apply: (res) => siteData.logoUrl = res },
+                { file: bannerFile, w: 1200, h: 400, apply: (res) => siteData.bannerUrl = res },
+                { file: prod1File, w: 700, h: 700, apply: (res) => siteData.products[0].img = res },
+                { file: prod2File, w: 700, h: 700, apply: (res) => siteData.products[1].img = res },
+                { file: prod3File, w: 700, h: 700, apply: (res) => siteData.products[2].img = res }
+            ];
+            let activeTasks = tasks.filter(t => t.file);
+            if (activeTasks.length === 0) {
+                alert('กรุณาเลือกไฟล์รูปภาพที่ต้องการเปลี่ยนก่อนนะคะ');
+                return;
+            }
+            const backupSiteData = JSON.parse(JSON.stringify(siteData));
+            let completed = 0;
+            let anyFailedToRead = false;
+            activeTasks.forEach(task => {
+                compressAndProcessFile(task.file, task.w, task.h, (base64Res) => {
+                    if (base64Res) {
+                        task.apply(base64Res);
+                    } else {
+                        anyFailedToRead = true;
+                    }
+                    completed++;
+                    if (completed === activeTasks.length) {
+                        const saved = trySaveSiteData();
+                        if (saved) {
+                            renderSiteElements();
+                            pushSharedState();
+                            publishImagesToAllDevices().then((published) => {
+                                if (anyFailedToRead) {
+                                    alert('บันทึกรูปภาพบางส่วนเรียบร้อย แต่มีบางไฟล์อ่านไม่สำเร็จค่ะ ลองอัปโหลดใหม่อีกครั้งนะคะ');
+                                } else if (published) {
+                                    alert('บันทึกรูปภาพทั้งหมดเรียบร้อยแล้วค่ะ! 🎀 รูปจะอัปเดตให้ทุกอุปกรณ์ที่เปิดเว็บนี้เห็นตรงกันนะคะ');
+                                } else {
+                                    alert('บันทึกรูปภาพทั้งหมดเรียบร้อยแล้วค่ะ! 🎀');
+                                }
+                            });
+                        } else {
+                            siteData = backupSiteData;
+                            renderSiteElements();
+                            alert('บันทึกรูปภาพไม่สำเร็จค่ะ 😢 พื้นที่เก็บข้อมูลของเบราว์เซอร์เต็ม ลองลดขนาดไฟล์รูปหรือเปลี่ยนทีละรูปแทนนะคะ');
+                        }
+                    }
+                });
+            });
+        }
+        function loadAdminData() {
+            populateChannelLinksInputs();
+            renderAdminQueueManage();
+            renderAdminPendingReviews();
+            switchAdminTab('admin-tab-1');
+        }
+        function switchAdminTab(tabId) {
+            document.querySelectorAll('.admin-tab-page').forEach(page => {
+                if (page.id === tabId) {
+                    page.classList.remove('hidden');
+                } else {
+                    page.classList.add('hidden');
+                }
+            });
+            document.querySelectorAll('.admin-tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            const activeBtn = document.getElementById('admin-tab-btn-' + tabId.split('-').pop());
+            if (activeBtn) activeBtn.classList.add('active');
+        }
+        function renderQueues(filter = '') {
+            const container = document.getElementById('queue-list-container');
+            if(!container) return;
+            container.innerHTML = '';
+            const filtered = queues.filter(q => q.name.toLowerCase().includes(filter.toLowerCase()));
+            if (filtered.length === 0) {
+                container.innerHTML = '<p class="text-xs text-center text-gray-400 py-4">ไม่พบคิวงานตามชื่อที่ค้นหา</p>';
+                return;
+            }
+            filtered.forEach(q => {
+                let badgeColor = "bg-gray-200 text-gray-600";
+                if(q.status == 25) badgeColor = "bg-pink-100 text-pink-600";
+                if(q.status == 50) badgeColor = "bg-yellow-100 text-yellow-700";
+                if(q.status == 75) badgeColor = "bg-pink-200 text-pink-700";
+                if(q.status == 100) badgeColor = "bg-green-100 text-green-700";
+                const div = document.createElement('div');
+                div.className = "bg-pj-bg p-3 rounded-2xl border border-pj-pink/30 flex flex-col gap-1.5";
+                div.innerHTML = `
+                    <div class="flex justify-between items-center">
+                        <span class="font-bold text-xs text-pj-blue-dark">${q.name}</span>
+                        <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${badgeColor}">${q.status}%</span>
+                    </div>
+                    ${q.note ? `<div class="order-note-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>${q.note}</div>` : ''}
+                    <div class="w-full bg-gray-200 h-2 rounded-full overflow-hidden">
+                        <div class="bg-pj-pink h-full transition-all duration-500" style="width: ${q.status}%"></div>
+                    </div>
+                `;
+                container.appendChild(div);
+            });
+        }
+        function searchQueue() {
+            const val = document.getElementById('queue-search-input').value;
+            renderQueues(val);
+        }
+        function renderAdminQueueManage() {
+            const container = document.getElementById('admin-queue-manage-list');
+            if(!container) return;
+            container.innerHTML = '';
+            queues.forEach((q) => {
+                const div = document.createElement('div');
+                div.className = "bg-pj-bg p-2.5 rounded-xl border border-pj-pink/30 flex flex-col gap-1.5 text-xs";
+                div.innerHTML = `
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="font-bold text-pj-blue-dark truncate max-w-[150px]">${q.name}</span>
+                        <div class="flex items-center gap-1.5">
+                            <select onchange="updateQueueStatus(${q.id}, this.value)" class="bg-white border border-pj-pink/40 rounded-lg px-1.5 py-1 text-[11px] font-bold">
+                                <option value="0" ${q.status == 0 ? 'selected':''}>0%</option>
+                                <option value="25" ${q.status == 25 ? 'selected':''}>25%</option>
+                                <option value="50" ${q.status == 50 ? 'selected':''}>50%</option>
+                                <option value="75" ${q.status == 75 ? 'selected':''}>75%</option>
+                                <option value="100" ${q.status == 100 ? 'selected':''}>100%</option>
+                            </select>
+                            <button onclick="deleteQueueItem(${q.id})" class="bg-red-500 text-white p-1 rounded-lg hover:bg-red-600 transition" title="ลบคิว">
+                                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                            </button>
+                        </div>
+                    </div>
+                    <input type="text" value="${(q.note || '').replace(/"/g, '&quot;')}" onchange="updateQueueNote(${q.id}, this.value)" placeholder="สั่งงานอะไร..." class="w-full bg-white border border-pj-pink/30 rounded-lg px-2 py-1 text-[11px] text-pj-blue-dark/80">
+                `;
+                container.appendChild(div);
+            });
+        }
+        function addNewQueueItem() {
+            const nameInput = document.getElementById('new-client-name');
+            const statusSelect = document.getElementById('new-client-status');
+            const noteInput = document.getElementById('new-client-note');
+            const name = nameInput.value.trim();
+            const status = parseInt(statusSelect.value);
+            const note = noteInput ? noteInput.value.trim() : '';
+            if(!name) {
+                alert('กรุณากรอกชื่อลูกค้าด้วยนะคะ');
+                return;
+            }
+            const newId = queues.length > 0 ? Math.max(...queues.map(q => q.id)) + 1 : 1;
+            queues.push({ id: newId, name: name, status: status, note: note });
+            nameInput.value = '';
+            if (noteInput) noteInput.value = '';
+            saveQueues();
+            renderAdminQueueManage();
+            renderQueues();
+        }
+        function updateQueueStatus(id, newStatus) {
+            const target = queues.find(q => q.id === id);
+            if(target) {
+                target.status = parseInt(newStatus);
+                saveQueues();
+                renderQueues();
+            }
+        }
+        function updateQueueNote(id, newNote) {
+            const target = queues.find(q => q.id === id);
+            if(target) {
+                target.note = newNote;
+                saveQueues();
+                renderQueues();
+            }
+        }
+        function deleteQueueItem(id) {
+            if(confirm('คุณต้องการลบคิวงานนี้ใช่หรือไม่?')) {
+                queues = queues.filter(q => q.id !== id);
+                saveQueues();
+                renderAdminQueueManage();
+                renderQueues();
+            }
+        }
+        function saveQueues() {
+            try {
+                localStorage.setItem('pj_queues', JSON.stringify(queues));
+            } catch(e){}
+            pushSharedState();
+        }
+        function handleReviewSubmit(e) {
+            e.preventDefault();
+            const name = document.getElementById('review-name').value.trim();
+            const text = document.getElementById('review-text').value.trim();
+            const fileInput = document.getElementById('review-proof-file');
+            if (!fileInput.files[0]) {
+                alert('กรุณาแนบรูปภาพหลักฐานการซื้อขายด้วยนะคะ');
+                return;
+            }
+            compressAndProcessFile(fileInput.files[0], 300, 300, (imgBase64) => {
+                const newReview = {
+                    id: Date.now(),
+                    name: name,
+                    text: text,
+                    img: imgBase64 || "https://placehold.co/100x100/ffb3c6/ffffff?text=User",
+                    approved: false
+                };
+                reviews.push(newReview);
+                try {
+                    localStorage.setItem('pj_reviews', JSON.stringify(reviews));
+                } catch(err){}
+                pushSharedState();
+                alert('ส่งรีวิวเรียบร้อยแล้วค่ะ! รอแอดมินอนุมัตินะคะ');
+                closeModal('modal-review-form');
+                e.target.reset();
+            });
+        }
         function renderReviews() {
             const container = document.getElementById('reviews-display-list');
             if (!container) return;
             container.innerHTML = '';
-            const approved = reviews.filter(r => r.status === 'approved');
+            const approved = reviews.filter(r => r.approved);
             if (approved.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-gray-400 py-3">ยังไม่มีรีวิวในขณะนี้</p>';
+                container.innerHTML = '<p class="text-xs text-center text-pj-blue-dark/50 py-3">ยังไม่มีรีวิว ร้านเปิดใหม่รอรีวิวจากลูกค้านะคะ 💕</p>';
                 return;
             }
             approved.forEach(r => {
                 const div = document.createElement('div');
-                div.className = 'bg-pj-bg p-3 rounded-2xl border border-pj-pink/30 flex gap-3 items-center';
+                div.className = "bg-pj-bg p-3 rounded-2xl border border-pj-pink/30 flex gap-3 items-center";
                 div.innerHTML = `
-                    <img src="${r.img}" class="w-10 h-10 rounded-full object-cover border border-pj-pink">
-                    <div>
-                        <h4 class="font-bold text-xs text-pj-blue-dark">${r.name}</h4>
-                        <p class="text-[11px] text-gray-600">${r.text}</p>
+                    <img src="${r.img}" class="w-10 h-10 rounded-full object-cover border border-pj-pink shrink-0">
+                    <div class="text-xs">
+                        <p class="font-bold text-pj-blue-dark">${r.name}</p>
+                        <p class="text-pj-blue-dark/80 mt-0.5">${r.text}</p>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
-
         function renderAdminPendingReviews() {
             const container = document.getElementById('admin-pending-reviews-list');
             if (!container) return;
             container.innerHTML = '';
-            const pending = reviews.filter(r => r.status === 'pending');
-            if (pending.length === 0) {
-                container.innerHTML = '<p class="text-center text-xs text-gray-400 py-2">ไม่มีรีวิวที่รออนุมัติ</p>';
+            if (reviews.length === 0) {
+                container.innerHTML = '<p class="text-xs text-center text-gray-400 py-3">ไม่มีรายการรีวิวในระบบ</p>';
                 return;
             }
-            pending.forEach(r => {
+            reviews.forEach(r => {
                 const div = document.createElement('div');
-                div.className = 'bg-pj-bg p-2.5 rounded-xl border border-pj-pink/30 flex items-center justify-between text-xs';
+                div.className = "bg-white p-3 rounded-xl border border-pj-pink/30 flex items-center justify-between gap-2 text-xs";
                 div.innerHTML = `
-                    <div class="flex items-center gap-2">
-                        <img src="${r.img}" class="w-8 h-8 rounded-full object-cover">
-                        <div>
-                            <p class="font-bold text-pj-blue-dark">${r.name}</p>
-                            <p class="text-[10px] text-gray-500">${r.text}</p>
+                    <div class="flex items-center gap-2 overflow-hidden">
+                        <img src="${r.img}" class="w-8 h-8 rounded-full object-cover shrink-0">
+                        <div class="truncate">
+                            <p class="font-bold text-pj-blue-dark truncate">${r.name} ${r.approved ? '<span class="text-[9px] text-green-600 font-normal">(อนุมัติแล้ว)</span>':''}</p>
+                            <p class="text-[10px] text-gray-500 truncate">${r.text}</p>
                         </div>
                     </div>
-                    <div class="flex gap-1">
-                        <button onclick="approveReview(${r.id})" class="bg-green-500 text-white px-2 py-1 rounded-lg text-[10px] font-bold">อนุมัติ</button>
-                        <button onclick="rejectReview(${r.id})" class="bg-red-400 text-white px-2 py-1 rounded-lg text-[10px] font-bold">ลบ</button>
+                    <div class="flex items-center gap-1 shrink-0">
+                        ${!r.approved ? `<button onclick="approveReview(${r.id})" class="bg-green-500 text-white text-[10px] font-bold px-2 py-1 rounded-lg hover:bg-green-600">อนุมัติ</button>` : ''}
+                        <button onclick="deleteReview(${r.id})" class="bg-red-500 text-white p-1 rounded-lg hover:bg-red-600">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg>
+                        </button>
                     </div>
                 `;
                 container.appendChild(div);
             });
         }
-
         function approveReview(id) {
-            const r = reviews.find(item => item.id === id);
-            if (r) { r.status = 'approved'; saveReviews(); }
+            const rev = reviews.find(r => r.id === id);
+            if (rev) {
+                rev.approved = true;
+                saveReviews();
+                renderAdminPendingReviews();
+                renderReviews();
+            }
         }
-        function rejectReview(id) {
-            reviews = reviews.filter(item => item.id !== id);
-            saveReviews();
+        function deleteReview(id) {
+            if(confirm('คุณต้องการลบรีวิวนี้ใช่หรือไม่?')) {
+                reviews = reviews.filter(r => r.id !== id);
+                saveReviews();
+                renderAdminPendingReviews();
+                renderReviews();
+            }
         }
         function saveReviews() {
-            localStorage.setItem('pj_reviews', JSON.stringify(reviews));
-            renderReviews();
-            renderAdminPendingReviews();
+            try {
+                localStorage.setItem('pj_reviews', JSON.stringify(reviews));
+            } catch(e){}
             pushSharedState();
         }
     </script>
